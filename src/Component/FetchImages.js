@@ -6,18 +6,21 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const FetchImages=()=> {
     const totalCount=30;
+    //To Store all the products
     const [product,setProducts]=useState([]);
     
     const imageLimit=5;
 
     const API_URL="https://dummyjson.com/products"
     
+    //Getting the product list and adding to the state
     const getProductList=()=>{
         let skip=Math.ceil(product.length/imageLimit)+5;
         const queryParam="?skip="+ skip+"&limit="+imageLimit;
         axios.get(API_URL+queryParam)
         .then((res)=>{
             const apiResponse=res.data.products;
+            //To store prev elements as well
             const mergeData=[...product,...apiResponse]
             setProducts(mergeData)
 
@@ -28,9 +31,13 @@ const FetchImages=()=> {
 
        
     }
+
+    //calling the function once the component loads
     useEffect(() => {
         getProductList()
     }, [])
+
+    //To fetch next items
 
     const fetchMoreData=()=>{
         if(product.length<totalCount){
